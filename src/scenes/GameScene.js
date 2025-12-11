@@ -27,7 +27,8 @@ export default class GameScene extends Phaser.Scene {
         type: 'codebreaker',
         name: 'Codebreaker Grid',
         quip: 'Declan: "Hex tiles hum like neon honey."',
-        tutorial: 'Click the hex tiles in the order that matches the target pattern. Watch the preview glow!'
+        tutorial:
+          'Click tiles in the order shown under "Target Pattern" (numbers read left-to-right, top-to-bottom). A wrong click resets the sequence, so follow the pattern carefully.'
       },
       {
         type: 'logicWires',
@@ -167,6 +168,15 @@ export default class GameScene extends Phaser.Scene {
     }).setOrigin(0.5);
     this.puzzleContainer.add(preview);
 
+    const helperText = this.add.text(0, preview.y + 28, 'Tiles are numbered left-to-right, top-to-bottom. Click each hex in the pattern order; a wrong tile resets your sequence.', {
+      fontFamily: 'Share Tech Mono',
+      fontSize: '14px',
+      color: '#e7ecff',
+      align: 'center',
+      wordWrap: { width: tileSize * gridSize + 40 },
+    }).setOrigin(0.5);
+    this.puzzleContainer.add(helperText);
+
     const selections = [];
 
     const tiles = [];
@@ -182,8 +192,14 @@ export default class GameScene extends Phaser.Scene {
           fontSize: '16px',
           color: '#e7ecff',
         }).setOrigin(0.5);
+        const indexLabel = this.add.text(tile.x - tileSize * 0.38, tile.y + tileSize * 0.32, index + 1, {
+          fontFamily: 'Share Tech Mono',
+          fontSize: '12px',
+          color: '#57f7ff',
+        }).setOrigin(0.5);
         this.puzzleContainer.add(tile);
         this.puzzleContainer.add(label);
+        this.puzzleContainer.add(indexLabel);
         tiles.push(tile);
       }
     }
